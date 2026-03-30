@@ -138,6 +138,15 @@
 
     function getSeekerIdFromUrl() {
       var params = new URLSearchParams(window.location.search);
+      // liff.state経由でパラメータが渡される場合の対応
+      var liffState = params.get('liff.state');
+      if (liffState) {
+        try {
+          var stateParams = new URLSearchParams(decodeURIComponent(liffState));
+          var stateSid = stateParams.get('sid');
+          if (stateSid) return stateSid;
+        } catch(e) {}
+      }
       return params.get('sid') || sessionStorage.getItem('seekerId') || '';
     }
 
