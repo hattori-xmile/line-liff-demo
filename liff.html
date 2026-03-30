@@ -129,9 +129,16 @@
     // ──────────────────────────────────────
 
     // URLパラメータからseekerIDを取得
+    // LINEのログインリダイレクト時にパラメータが消えるためsessionStorageに保存
+    (function() {
+      var params = new URLSearchParams(window.location.search);
+      var sid = params.get('sid');
+      if (sid) sessionStorage.setItem('seekerId', sid);
+    })();
+
     function getSeekerIdFromUrl() {
       var params = new URLSearchParams(window.location.search);
-      return params.get('sid') || '';
+      return params.get('sid') || sessionStorage.getItem('seekerId') || '';
     }
 
     // 画面切り替え
